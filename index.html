@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CamZone | اختبار الاتصال</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 3rem 1rem; }
+    #status { font-size: 1.2rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>CamZone</h1>
+  <p id="status">جاري الاتصال بقاعدة البيانات...</p>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script>
+    const client = supabase.createClient(
+      'https://gnhyhcxxgampcvfgxwyv.supabase.co',
+      'sb_publishable_x-eSzDtNIJboKoaWRsuGLw_Dg-tufBC'
+    );
+
+    async function testConnection() {
+      const status = document.getElementById('status');
+      try {
+        const { error } = await client.from('technicians').select('id').limit(1);
+        status.textContent = error
+          ? 'تم الوصول للقاعدة، والرسالة: ' + error.message
+          : '✅ الموقع متصل بقاعدة البيانات';
+      } catch (e) {
+        status.textContent = '❌ تعذر الاتصال: ' + e.message;
+      }
+    }
+    testConnection();
+  </script>
+</body>
+</html>
