@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VEXA | حساب الفني</title>
+  <style>
+    body { font-family: sans-serif; max-width: 420px; margin: 0 auto; padding: 2rem 1rem; }
+    input, button { width: 100%; padding: .8rem; margin: .4rem 0; font-size: 1rem; box-sizing: border-box; }
+    button { cursor: pointer; }
+    #msg { margin-top: 1rem; min-height: 1.5rem; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1>VEXA</h1>
+  <h2>حساب الفني</h2>
+
+  <div id="authBox">
+    <input id="email" type="email" placeholder="الإيميل" autocomplete="email">
+    <input id="password" type="password" placeholder="كلمة السر (6 أحرف على الأقل)" autocomplete="current-password">
+    <button id="signupBtn">إنشاء حساب</button>
+    <button id="loginBtn">تسجيل الدخول</button>
+  </div>
+
+  <div id="userBox" class="hidden">
+    <p>أنت مسجّل دخول بالإيميل: <strong id="userEmail"></strong></p>
+    <button id="logoutBtn">تسجيل الخروج</button>
+  </div>
+
+  <p id="msg"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script>
+    const client = supabase.createClient(
+      'https://gnhyhcxxgampcvfgxwyv.supabase.co',
+      'sb_publishable_x-eSzDtNIJboKoaWRsuGLw_Dg-tufBC'
+    );
+
+    const msg = document.getElementById('msg');
+    const show = (text) => { msg.textContent = text; };
+    const val = (id) => document.getElementById(id).value.trim();
+
+    function render(session) {
+      const loggedIn = !!session;
+      document.getElementById('authBox').classList.toggle('hidden', loggedIn);
+      document.getElementById('userBox').classList.toggle('hidden', !loggedIn);
+      if (loggedIn) document.getElementById('userEmail').textContent = session.user.email;
+    }
+
+    document.getElementById('signupBtn').onclick = async () => {
+      show('جاري إنشاء الحساب...');
+      const { error } = await client.auth.signUp({
+        email: val('email'),
+        password: document.getElementById('password').value,
+        options: { emailRedirectTo: window.location.origin + window.location.pathname }
+      });
+      show(error
+        ? 'تعذر إنشاء الحساب: ' + error.message
+        : 'تم. افتح إيميلك واضغط رابط التأكيد، وبعدها سجّل الدخول.');
+    };
+
+    document.getElementById('loginBtn').onclick = async () => {
+      show('جاري تسجيل الدخول...');
+      const { error } = await client.auth.signInWithPassword({
+        email: val('email'),
+        password: document.getElementById('password').value
+      });
+      show(error ? 'تعذر تسجيل الدخول: ' + error.message : '');
+    };
+
+    document.getElementById('logoutBtn').onclick = async () => {
+      await client.auth.signOut();
+      show('تم تسجيل الخروج.');
+    };
+
+    client.auth.onAuthStateChange((_event, session) => render(session));
+    client.auth.getSession().then(({ data }) => render(data.session));
+  </script>
+</body>
+</html>
