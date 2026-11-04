@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VEXA | حساب الفني</title>
   <style>
-    body { font-family: sans-serif; max-width: 420px; margin: 0 auto; padding: 2rem 1rem; }
-    input, button { width: 100%; padding: .8rem; margin: .4rem 0; font-size: 1rem; box-sizing: border-box; }
+    body { font-family: sans-serif; max-width: 460px; margin: 0 auto; padding: 2rem 1rem; }
+    input, select, button { width: 100%; padding: .8rem; margin: .3rem 0 .8rem; font-size: 1rem; box-sizing: border-box; }
+    label { display: block; font-weight: bold; }
+    .chk { display: flex; align-items: center; gap: .5rem; font-weight: normal; }
+    .chk input { width: auto; margin: 0; }
     button { cursor: pointer; }
     #msg { margin-top: 1rem; min-height: 1.5rem; }
     .hidden { display: none; }
@@ -24,8 +27,64 @@
   </div>
 
   <div id="userBox" class="hidden">
-    <p>أنت مسجّل دخول بالإيميل: <strong id="userEmail"></strong></p>
+    <p>مسجّل دخول بالإيميل: <strong id="userEmail"></strong></p>
     <button id="logoutBtn">تسجيل الخروج</button>
+  </div>
+
+  <div id="statusBox" class="hidden"><h3 id="statusText"></h3></div>
+
+  <div id="formBox" class="hidden">
+    <h3>بيانات الفني</h3>
+    <label for="fullName">الاسم الكامل</label>
+    <input id="fullName" type="text" autocomplete="name">
+
+    <label for="phone">رقم الموبايل</label>
+    <input id="phone" type="tel" placeholder="01XXXXXXXXX" inputmode="numeric">
+
+    <label for="governorate">المحافظة</label>
+    <select id="governorate">
+      <option value="">اختار المحافظة</option>
+      <option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option>
+      <option>الدقهلية</option><option>البحيرة</option><option>الفيوم</option>
+      <option>الغربية</option><option>الإسماعيلية</option><option>المنوفية</option>
+      <option>المنيا</option><option>القليوبية</option><option>الوادي الجديد</option>
+      <option>السويس</option><option>الشرقية</option><option>دمياط</option>
+      <option>بورسعيد</option><option>جنوب سيناء</option><option>كفر الشيخ</option>
+      <option>مطروح</option><option>الأقصر</option><option>قنا</option>
+      <option>شمال سيناء</option><option>سوهاج</option><option>بني سويف</option>
+      <option>أسيوط</option><option>أسوان</option><option>البحر الأحمر</option>
+    </select>
+
+    <label for="areas">المناطق اللي بتغطيها (افصل بينها بفاصلة)</label>
+    <input id="areas" type="text">
+
+    <label>الأنظمة اللي بتشتغل فيها</label>
+    <label class="chk"><input type="checkbox" name="systems" value="كاميرات"> كاميرات</label>
+    <label class="chk"><input type="checkbox" name="systems" value="انتركم"> انتركم</label>
+    <label class="chk"><input type="checkbox" name="systems" value="إنذار"> إنذار</label>
+    <label class="chk"><input type="checkbox" name="systems" value="حريق"> حريق</label>
+    <label class="chk"><input type="checkbox" name="systems" value="بصمة وحضور"> بصمة وحضور</label>
+
+    <label for="years">سنين الخبرة</label>
+    <input id="years" type="number" min="0" max="60" inputmode="numeric">
+
+    <label for="workType">نوع الشغل</label>
+    <select id="workType">
+      <option value="">اختار</option>
+      <option value="freelance">حر</option>
+      <option value="company">مع شركة</option>
+    </select>
+
+    <label for="idPhoto">صورة البطاقة (من الكاميرا)</label>
+    <input id="idPhoto" type="file" accept="image/*" capture="environment">
+
+    <label for="toolsPhoto">صورة عدّة الشغل (من الكاميرا)</label>
+    <input id="toolsPhoto" type="file" accept="image/*" capture="environment">
+
+    <label for="profilePhoto">صورة شخصية (من الكاميرا)</label>
+    <input id="profilePhoto" type="file" accept="image/*" capture="user">
+
+    <button id="submitBtn">إرسال الطلب</button>
   </div>
 
   <p id="msg"></p>
@@ -37,44 +96,144 @@
       'sb_publishable_x-eSzDtNIJboKoaWRsuGLw_Dg-tufBC'
     );
 
-    const msg = document.getElementById('msg');
-    const show = (text) => { msg.textContent = text; };
-    const val = (id) => document.getElementById(id).value.trim();
+    const $ = (id) => document.getElementById(id);
+    const show = (text) => { $('msg').textContent = text; };
+    const val = (id) => $(id).value.trim();
+    const setHidden = (id, hidden) => $(id).classList.toggle('hidden', hidden);
 
-    function render(session) {
-      const loggedIn = !!session;
-      document.getElementById('authBox').classList.toggle('hidden', loggedIn);
-      document.getElementById('userBox').classList.toggle('hidden', !loggedIn);
-      if (loggedIn) document.getElementById('userEmail').textContent = session.user.email;
-    }
-
-    document.getElementById('signupBtn').onclick = async () => {
-      show('جاري إنشاء الحساب...');
-      const { error } = await client.auth.signUp({
-        email: val('email'),
-        password: document.getElementById('password').value,
-        options: { emailRedirectTo: window.location.origin + window.location.pathname }
-      });
-      show(error
-        ? 'تعذر إنشاء الحساب: ' + error.message
-        : 'تم. افتح إيميلك واضغط رابط التأكيد، وبعدها سجّل الدخول.');
+    const STATUS_TEXT = {
+      pending: 'طلبك قيد المراجعة. هنتواصل معاك على رقم الموبايل بعد المراجعة.',
+      approved: 'تم قبول حسابك.',
+      suspended: 'حسابك موقوف حاليًا. تواصل مع الإدارة.'
     };
 
-    document.getElementById('loginBtn').onclick = async () => {
+    async function render(session) {
+      const loggedIn = !!session;
+      setHidden('authBox', loggedIn);
+      setHidden('userBox', !loggedIn);
+      setHidden('statusBox', true);
+      setHidden('formBox', true);
+      if (!loggedIn) return;
+
+      $('userEmail').textContent = session.user.email;
+      const { data, error } = await client
+        .from('technicians')
+        .select('status')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+      if (error) { show('تعذر تحميل بياناتك: ' + error.message); return; }
+      if (data) {
+        $('statusText').textContent = STATUS_TEXT[data.status] || '';
+        setHidden('statusBox', false);
+      } else {
+        setHidden('formBox', false);
+      }
+    }
+
+    async function compress(file) {
+      const bmp = await createImageBitmap(file);
+      const scale = Math.min(1, 1280 / Math.max(bmp.width, bmp.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(bmp.width * scale);
+      canvas.height = Math.round(bmp.height * scale);
+      canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
+      return new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+    }
+
+    async function uploadPhoto(uid, kind, file) {
+      const blob = await compress(file);
+      const path = uid + '/' + kind + '-' + Date.now() + '.jpg';
+      const { error } = await client.storage
+        .from('technician-docs')
+        .upload(path, blob, { contentType: 'image/jpeg' });
+      if (error) throw new Error('رفع صورة ' + kind + ': ' + error.message);
+    }
+
+    $('signupBtn').onclick = async () => {
+      show('جاري إنشاء الحساب...');
+      const { data, error } = await client.auth.signUp({
+        email: val('email'),
+        password: $('password').value,
+        options: { emailRedirectTo: window.location.origin + window.location.pathname }
+      });
+      if (error) show('تعذر إنشاء الحساب: ' + error.message);
+      else show(data.session ? 'تم إنشاء حسابك.' : 'تم. افتح إيميلك واضغط رابط التأكيد، وبعدها سجّل الدخول.');
+    };
+
+    $('loginBtn').onclick = async () => {
       show('جاري تسجيل الدخول...');
       const { error } = await client.auth.signInWithPassword({
         email: val('email'),
-        password: document.getElementById('password').value
+        password: $('password').value
       });
       show(error ? 'تعذر تسجيل الدخول: ' + error.message : '');
     };
 
-    document.getElementById('logoutBtn').onclick = async () => {
+    $('logoutBtn').onclick = async () => {
       await client.auth.signOut();
       show('تم تسجيل الخروج.');
     };
 
-    client.auth.onAuthStateChange((_event, session) => render(session));
+    $('submitBtn').onclick = async () => {
+      const btn = $('submitBtn');
+      const fullName = val('fullName');
+      const phone = val('phone');
+      const governorate = $('governorate').value;
+      const areas = val('areas').split(/[,،]/).map((a) => a.trim()).filter(Boolean);
+      const systems = Array.from(document.querySelectorAll('input[name="systems"]:checked')).map((c) => c.value);
+      const years = parseInt($('years').value, 10);
+      const workType = $('workType').value;
+      const idFile = $('idPhoto').files[0];
+      const toolsFile = $('toolsPhoto').files[0];
+      const profileFile = $('profilePhoto').files[0];
+
+      if (fullName.length < 3) return show('اكتب اسمك الكامل.');
+      if (!/^01[0-9]{9}$/.test(phone)) return show('رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 01.');
+      if (!governorate) return show('اختار المحافظة.');
+      if (areas.length === 0) return show('اكتب منطقة واحدة على الأقل.');
+      if (systems.length === 0) return show('اختار نظام واحد على الأقل.');
+      if (!(years >= 0 && years <= 60)) return show('اكتب سنين الخبرة (رقم من 0 إلى 60).');
+      if (!workType) return show('اختار نوع الشغل.');
+      if (!idFile || !toolsFile || !profileFile) return show('لازم تصوّر الصور التلاتة.');
+
+      btn.disabled = true;
+      show('جاري رفع الصور وإرسال الطلب...');
+      try {
+        const { data: sessionData } = await client.auth.getSession();
+        const uid = sessionData.session.user.id;
+
+        await uploadPhoto(uid, 'id', idFile);
+        await uploadPhoto(uid, 'tools', toolsFile);
+        await uploadPhoto(uid, 'profile', profileFile);
+
+        const { error } = await client.from('technicians').insert({
+          user_id: uid,
+          full_name: fullName,
+          phone: phone,
+          governorate: governorate,
+          areas: areas,
+          systems: systems,
+          experience_years: years,
+          work_type: workType,
+          status: 'pending'
+        });
+        if (error) {
+          if (error.code === '23505') throw new Error('رقم الموبايل ده مسجّل قبل كده.');
+          throw new Error(error.message);
+        }
+        show('تم إرسال طلبك.');
+        await render(sessionData.session);
+      } catch (e) {
+        show('تعذر الإرسال: ' + e.message);
+      } finally {
+        btn.disabled = false;
+      }
+    };
+
+    client.auth.onAuthStateChange((_event, session) => {
+      setTimeout(() => render(session), 0);
+    });
     client.auth.getSession().then(({ data }) => render(data.session));
   </script>
 </body>
