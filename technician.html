@@ -84,6 +84,11 @@
     <label for="profilePhoto">صورة شخصية (من الكاميرا)</label>
     <input id="profilePhoto" type="file" accept="image/*" capture="user">
 
+        <label class="chk">
+      <input type="checkbox" id="consent">
+      أوافق إن صورة بطاقتي تُستخدم للتحقق من هويتي بس، ولا تتشارك مع أي حد.
+    </label>
+
     <button id="submitBtn">إرسال الطلب</button>
   </div>
 
@@ -195,7 +200,8 @@
       if (systems.length === 0) return show('اختار نظام واحد على الأقل.');
       if (!(years >= 0 && years <= 60)) return show('اكتب سنين الخبرة (رقم من 0 إلى 60).');
       if (!workType) return show('اختار نوع الشغل.');
-      if (!idFile || !toolsFile || !profileFile) return show('لازم تصوّر الصور التلاتة.');
+            if (!idFile || !toolsFile || !profileFile) return show('لازم تصوّر الصور التلاتة.');
+      if (!$('consent').checked) return show('لازم توافق على استخدام صورة البطاقة للتحقق من الهوية.');
 
       btn.disabled = true;
       show('جاري رفع الصور وإرسال الطلب...');
