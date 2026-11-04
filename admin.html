@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VEXA | الإدارة</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: sans-serif; max-width: 640px; margin: 0 auto; padding: 1.5rem 1rem; }
+    input, select, button { padding: .7rem; font-size: 1rem; box-sizing: border-box; }
+    #authBox input, #authBox button { width: 100%; margin: .3rem 0; }
+    .card { border: 1px solid #888; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+    .card p { margin: .3rem 0; }
+    .row { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .6rem; }
+    .photos img { width: 100%; max-width: 220px; margin: .3rem 0; border-radius: 6px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1>VEXA | الإدارة</h1>
+
+  <div id="authBox">
+    <input id="email" type="email" placeholder="الإيميل" autocomplete="email">
+    <input id="password" type="password" placeholder="كلمة السر" autocomplete="current-password">
+    <button id="loginBtn">تسجيل الدخول</button>
+  </div>
+
+  <div id="userBox" class="hidden">
+    <p>مسجّل دخول: <strong id="userEmail"></strong></p>
+    <button id="logoutBtn">تسجيل الخروج</button>
+  </div>
+
+  <div id="adminBox" class="hidden">
+    <label for="filter">عرض الطلبات:</label>
+    <select id="filter">
+      <option value="pending">قيد المراجعة</option>
+      <option value="approved">المقبولة</option>
+      <option value="suspended">الموقوفة</option>
+      <option value="">الكل</option>
+    </select>
+    <div id="list"></div>
+  </div>
+
+  <p id="msg"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script>
+    const client = supabase.createClient(
+      'https://gnhyhcxxgampcvfgxwyv.supabase.co',
+      'sb_publishable_x-eSzDtNIJboKoaWRsuGLw_Dg-tufBC'
+    );
+
+    const $ = (id) => document.getElementById(id);
+    const show = (text) => { $('msg').textContent = text; };
+    const setHidden = (id, hidden) => $(id).classList.toggle('hidden', hidden);
+
+    const STATUS = { pending: 'قيد المراجعة', approved: 'مقبول', suspended: 'موقوف' };
+    const WORK = { freelance: 'حر', company: 'مع شركة' };
+    const PHOTO = { id: 'البطاقة', tools: 'العدة', profile: 'الصورة الشخصية' };
+
+    function line(label, value) {
+      const p = document.createElement('p');
+      p.textContent = label + ': ' + value;
+      return p;
+    }
+
+    function button(text, onClick) {
+      const b = document.createElement('button');
+      b.textContent = text;
+      b.onclick = onClick;
+      return b;
+    }
+
+    async function showPhotos(uid, box) {
+      box.replaceChildren();
+      const bucket = client.storage.from('technician-docs');
+      const { data, error } = await bucket.list(uid);
+      if (error) { show('تعذر تحميل الصور: ' + error.message); return; }
+      if (!data.length) { show('مفيش صور لهذا الفني.'); return; }
+      for (const f of data) {
+        const { data: signed, error: e2 } = await bucket.createSignedUrl(uid + '/' + f.name, 300);
+        if (e2) continue;
+        const caption = document.createElement('p');
+        caption.textContent = PHOTO[f.name.split('-')[0]] || f.name;
+        const img = document.createElement('img');
+        img.src = signed.signedUrl;
+        img.alt = caption.textContent;
+        box.appendChild(caption);
+        box.appendChild(img);
+      }
+    }
+
+    async function setStatus(id, status) {
+      const { data, error } = await client
+        .from('technicians').update({ status: status }).eq('id', id).select();
+      if (error) { show('تعذر التحديث: ' + error.message); return; }
+      if (!data.length) { show('ما اتغيّرش شيء، راجع الصلاحيات.'); return; }
+      await loadList();
+      show('تم تحديث الحالة.');
+    }
+
+    function card(t) {
+      const c = document.createElement('div');
+      c.className = 'card';
+      const h = document.createElement('h3');
+      h.textContent = t.full_name;
+      c.appendChild(h);
+      c.appendChild(line('الموبايل', t.phone));
+      c.appendChild(line('المحافظة', t.governorate));
+      c.appendChild(line('المناطق', t.areas.join('، ')));
+      c.appendChild(line('الأنظمة', t.systems.join('، ')));
+      c.appendChild(line('الخبرة', t.experience_years + ' سنة'));
+      c.appendChild(line('نوع الشغل', WORK[t.work_type] || t.work_type));
+      c.appendChild(line('الحالة', STATUS[t.status] || t.status));
+
+      const photos = document.createElement('div');
+      photos.className = 'photos';
+      c.appendChild(photos);
+
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.appendChild(button('عرض الصور', () => showPhotos(t.user_id, photos)));
+      if (t.status !== 'approved') row.appendChild(button('قبول', () => setStatus(t.id, 'approved')));
+      if (t.status !== 'suspended') row.appendChild(button('إيقاف', () => setStatus(t.id, 'suspended')));
+      if (t.status !== 'pending') row.appendChild(button('رجوع لقيد المراجعة', () => setStatus(t.id, 'pending')));
+      c.appendChild(row);
+      return c;
+    }
+
+    async function loadList() {
+      let q = client.from('technicians').select('*').order('created_at', { ascending: false });
+      const filter = $('filter').value;
+      if (filter) q = q.eq('status', filter);
+      const { data, error } = await q;
+      if (error) { show('تعذر تحميل الطلبات: ' + error.message); return; }
+      const list = $('list');
+      list.replaceChildren();
+      show(data.length ? 'عدد الطلبات: ' + data.length : 'مفيش طلبات بالحالة دي.');
+      data.forEach((t) => list.appendChild(card(t)));
+    }
+
+    async function render(session) {
+      const loggedIn = !!session;
+      setHidden('authBox', loggedIn);
+      setHidden('userBox', !loggedIn);
+      setHidden('adminBox', true);
+      if (!loggedIn) return;
+      $('userEmail').textContent = session.user.email;
+      const { data: isAdmin, error } = await client.rpc('is_admin');
+      if (error) { show('تعذر التحقق من الصلاحية: ' + error.message); return; }
+      if (!isAdmin) { show('الحساب ده مش أدمن.'); return; }
+      setHidden('adminBox', false);
+      await loadList();
+    }
+
+    $('loginBtn').onclick = async () => {
+      show('جاري تسجيل الدخول...');
+      const { error } = await client.auth.signInWithPassword({
+        email: $('email').value.trim(),
+        password: $('password').value
+      });
+      show(error ? 'تعذر تسجيل الدخول: ' + error.message : '');
+    };
+
+    $('logoutBtn').onclick = async () => {
+      await client.auth.signOut();
+      show('تم تسجيل الخروج.');
+    };
+
+    $('filter').onchange = loadList;
+
+    client.auth.onAuthStateChange((_event, session) => {
+      setTimeout(() => render(session), 0);
+    });
+    client.auth.getSession().then(({ data }) => render(data.session));
+  </script>
+</body>
+</html>
