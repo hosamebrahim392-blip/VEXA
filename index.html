@@ -3,35 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CamZone | اختبار الاتصال</title>
+  <title>VEXA | شغلك النضيف يستاهل سعره</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 3rem 1rem; }
-    #status { font-size: 1.2rem; margin-top: 1rem; }
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5b6470;
+      --accent: #0b6e4f; --accent-text: #ffffff; --border: #dfe3e8;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14181d; --card: #1d232a; --text: #eef1f4; --muted: #a3acb8;
+        --accent: #2fb585; --accent-text: #0c1511; --border: #2c343d;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+      line-height: 1.7;
+    }
+    main { max-width: 520px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+    .brand { font-weight: 700; letter-spacing: .08em; color: var(--accent); }
+    h1 { font-size: 1.9rem; line-height: 1.4; margin: .6rem 0; }
+    .lead { font-size: 1.15rem; color: var(--muted); margin: 0 0 1.8rem; }
+    .point {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1rem 1.1rem; margin: .8rem 0;
+    }
+    .point h2 { font-size: 1.1rem; margin: 0 0 .2rem; }
+    .point p { margin: 0; color: var(--muted); }
+    .cta {
+      display: block; text-align: center; margin: 2rem 0 .6rem;
+      background: var(--accent); color: var(--accent-text);
+      padding: 1rem; border-radius: 14px; font-size: 1.15rem;
+      font-weight: 700; text-decoration: none;
+    }
+    .note { text-align: center; color: var(--muted); font-size: .95rem; margin: .4rem 0 0; }
+    .closing { margin-top: 2rem; text-align: center; font-size: 1.05rem; }
   </style>
 </head>
 <body>
-  <h1>CamZone</h1>
-  <p id="status">جاري الاتصال بقاعدة البيانات...</p>
+  <main>
+    <div class="brand">VEXA</div>
+    <h1>شغلك النضيف يستاهل سعره</h1>
+    <p class="lead">مش لازم تنزل بالسعر علشان تلاقي شغل. إنت عليك الصنعة، وإحنا علينا العميل والبضاعة.</p>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-  <script>
-    const client = supabase.createClient(
-      'https://gnhyhcxxgampcvfgxwyv.supabase.co',
-      'sb_publishable_x-eSzDtNIJboKoaWRsuGLw_Dg-tufBC'
-    );
+    <div class="point">
+      <h2>🔧 صنعتك هي اللي بتتكلم</h2>
+      <p>بنبني منصة سعرها عادل، ومحدش فيها بيتسابق على أرخص شغل.</p>
+    </div>
 
-    async function testConnection() {
-      const status = document.getElementById('status');
-      try {
-        const { error } = await client.from('technicians').select('id').limit(1);
-        status.textContent = error
-          ? 'تم الوصول للقاعدة، والرسالة: ' + error.message
-          : '✅ الموقع متصل بقاعدة البيانات';
-      } catch (e) {
-        status.textContent = '❌ تعذر الاتصال: ' + e.message;
-      }
-    }
-    testConnection();
-  </script>
+    <div class="point">
+      <h2>💰 فلوسك قبل ما تمشي</h2>
+      <p>تخلّص الشغل والعميل يستلم، وتقبض قبل ما تلمّ عدّتك.</p>
+    </div>
+
+    <div class="point">
+      <h2>🤝 كلام واضح من الأول</h2>
+      <p>التسجيل مجاني ومفيش اشتراك. عمولتنا 5% من المصنعية، وبس لما تشتغل شغلة.</p>
+    </div>
+
+    <a class="cta" href="technician.html">سجّل كفنّي</a>
+    <p class="note">إحنا لسه بنبدأ، وعايزينك معانا من الأول. وبنراجع كل طلب بنفسنا علشان نحافظ على مستوى الشغل.</p>
+
+    <p class="closing">الشغلانة دي تستاهل ناس بتحترمها.</p>
+  </main>
 </body>
 </html>
