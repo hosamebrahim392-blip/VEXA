@@ -4,69 +4,207 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VEXA | شغلك النضيف يستاهل سعره</title>
+  <meta name="description" content="منصة للفنيين: إنت عليك الصنعة، وإحنا علينا العميل والبضاعة. سجّل كفنّي في كاميرات المراقبة وأنظمة الأمان.">
+  <meta name="theme-color" content="#0b6e4f">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="VEXA | شغلك النضيف يستاهل سعره">
+  <meta property="og:description" content="إنت عليك الصنعة، وإحنا علينا العميل والبضاعة. التسجيل مجاني.">
+  <meta property="og:locale" content="ar_EG">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b6e4f'/%3E%3Cpath d='M16 30 L28 44 L48 18' fill='none' stroke='white' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
       color-scheme: light dark;
       --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5b6470;
-      --accent: #0b6e4f; --accent-text: #ffffff; --border: #dfe3e8;
+      --accent: #0b6e4f; --accent-text: #ffffff; --accent-soft: rgba(11,110,79,.10);
+      --border: #dfe3e8;
+      --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-pill: 999px;
+      --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem; --s-6: 1.5rem; --s-8: 2rem; --s-10: 2.5rem; --s-12: 3rem;
+      --sh-1: 0 1px 2px rgba(0,0,0,.06);
+      --sh-2: 0 6px 18px rgba(0,0,0,.08);
+      --t: .2s ease;
     }
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #14181d; --card: #1d232a; --text: #eef1f4; --muted: #a3acb8;
-        --accent: #2fb585; --accent-text: #0c1511; --border: #2c343d;
+        --accent: #2fb585; --accent-text: #0c1511; --accent-soft: rgba(47,181,133,.14);
+        --border: #2c343d;
+        --sh-1: 0 1px 2px rgba(0,0,0,.4);
+        --sh-2: 0 6px 18px rgba(0,0,0,.35);
       }
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0; background: var(--bg); color: var(--text);
-      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
-      line-height: 1.7;
+      font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+      line-height: 1.75;
     }
-    main { max-width: 520px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
-    .brand { font-weight: 700; letter-spacing: .08em; color: var(--accent); }
-    h1 { font-size: 1.9rem; line-height: 1.4; margin: .6rem 0; }
-    .lead { font-size: 1.15rem; color: var(--muted); margin: 0 0 1.8rem; }
-    .point {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1rem 1.1rem; margin: .8rem 0;
+    .wrap { max-width: 640px; margin: 0 auto; padding: 0 var(--s-4); }
+    .skip { position: absolute; inset-inline-start: var(--s-4); top: -4rem; background: var(--accent); color: var(--accent-text); padding: var(--s-2) var(--s-4); border-radius: var(--r-sm); z-index: 10; }
+    .skip:focus { top: var(--s-2); }
+    a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: var(--r-sm); }
+
+    header { padding: var(--s-4) 0; }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
+    .brand { display: flex; align-items: center; gap: var(--s-2); font-weight: 800; letter-spacing: .08em; color: var(--accent); text-decoration: none; font-size: 1.25rem; }
+    .logo { width: 36px; height: 36px; }
+    .btn {
+      display: inline-block; text-align: center; background: var(--accent); color: var(--accent-text);
+      padding: var(--s-3) var(--s-6); border-radius: var(--r-md); font-weight: 800; text-decoration: none;
+      box-shadow: var(--sh-1); transition: transform var(--t), box-shadow var(--t);
     }
-    .point h2 { font-size: 1.1rem; margin: 0 0 .2rem; }
-    .point p { margin: 0; color: var(--muted); }
-    .cta {
-      display: block; text-align: center; margin: 2rem 0 .6rem;
-      background: var(--accent); color: var(--accent-text);
-      padding: 1rem; border-radius: 14px; font-size: 1.15rem;
-      font-weight: 700; text-decoration: none;
+    .btn:hover { transform: translateY(-1px); box-shadow: var(--sh-2); }
+    .btn-sm { padding: var(--s-2) var(--s-4); font-size: .95rem; }
+    .btn-lg { display: block; font-size: 1.15rem; padding: var(--s-4); }
+
+    .hero { padding: var(--s-10) 0 var(--s-6); }
+    h1 { font-size: 2rem; line-height: 1.4; margin: 0 0 var(--s-3); font-weight: 800; }
+    .lead { font-size: 1.15rem; color: var(--muted); margin: 0 0 var(--s-6); }
+    .note { color: var(--muted); font-size: .95rem; margin: var(--s-3) 0 0; text-align: center; }
+
+    .facts { display: flex; flex-wrap: wrap; gap: var(--s-2); list-style: none; padding: 0; margin: var(--s-6) 0 0; }
+    .facts li { background: var(--accent-soft); color: var(--accent); border-radius: var(--r-pill); padding: var(--s-1) var(--s-4); font-weight: 600; font-size: .95rem; }
+
+    section { padding: var(--s-10) 0 0; }
+    h2 { font-size: 1.5rem; line-height: 1.4; margin: 0 0 var(--s-2); font-weight: 800; }
+    .sub { color: var(--muted); margin: 0 0 var(--s-6); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--s-4) var(--s-6); margin-bottom: var(--s-3); box-shadow: var(--sh-1); }
+    .card h3 { margin: 0 0 var(--s-1); font-size: 1.1rem; }
+    .card p { margin: 0; color: var(--muted); }
+
+    .step { display: flex; gap: var(--s-4); align-items: flex-start; }
+    .num { flex: none; width: 2.25rem; height: 2.25rem; border-radius: var(--r-pill); background: var(--accent); color: var(--accent-text); font-weight: 800; display: grid; place-items: center; }
+
+    .meaning { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-3); }
+    .meaning .card { margin: 0; text-align: center; }
+    .meaning b { display: block; font-size: 1.75rem; color: var(--accent); line-height: 1.2; }
+    .meaning span { color: var(--muted); font-size: .95rem; }
+
+    details { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); margin-bottom: var(--s-3); box-shadow: var(--sh-1); }
+    summary { cursor: pointer; padding: var(--s-4) var(--s-6); font-weight: 600; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; float: left; color: var(--accent); font-weight: 800; }
+    details[open] summary::after { content: "−"; }
+    details p { margin: 0; padding: 0 var(--s-6) var(--s-4); color: var(--muted); }
+
+    .final { text-align: center; padding-bottom: var(--s-12); }
+    footer { border-top: 1px solid var(--border); padding: var(--s-6) 0; text-align: center; color: var(--muted); font-size: .9rem; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero, section { animation: rise .5s ease both; }
+      @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     }
-    .note { text-align: center; color: var(--muted); font-size: .95rem; margin: .4rem 0 0; }
-    .closing { margin-top: 2rem; text-align: center; font-size: 1.05rem; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .btn { transition: none; }
+    }
+    @media (min-width: 640px) { h1 { font-size: 2.5rem; } }
   </style>
 </head>
 <body>
-  <main>
-    <div class="brand">VEXA</div>
-    <h1>شغلك النضيف يستاهل سعره</h1>
-    <p class="lead">مش لازم تنزل بالسعر علشان تلاقي شغل. إنت عليك الصنعة، وإحنا علينا العميل والبضاعة.</p>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="vxg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#12946b"/><stop offset="1" stop-color="#094c38"/>
+      </linearGradient>
+    </defs>
+    <symbol id="vx" viewBox="0 0 512 512">
+      <rect width="512" height="512" rx="120" fill="url(#vxg)"/>
+      <g transform="translate(-16 24)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M136 176 L236 350" stroke="#ffffff" stroke-width="46"/>
+        <path d="M236 350 L351 168" stroke="#7ef0c4" stroke-width="46"/>
+        <circle cx="372" cy="134" r="30" stroke="#7ef0c4" stroke-width="14"/>
+        <circle cx="372" cy="134" r="8" fill="#7ef0c4" stroke="none"/>
+      </g>
+    </symbol>
+  </svg>
 
-    <div class="point">
-      <h2>🔧 صنعتك هي اللي بتتكلم</h2>
-      <p>بنبني منصة سعرها عادل، ومحدش فيها بيتسابق على أرخص شغل.</p>
+  <a class="skip" href="#main">تخطّى للمحتوى</a>
+
+  <header>
+    <div class="wrap">
+      <a class="brand" href="./" aria-label="VEXA">
+        <svg class="logo" aria-hidden="true"><use href="#vx"/></svg>
+        <span>VEXA</span>
+      </a>
+      <a class="btn btn-sm" href="technician.html">سجّل كفنّي</a>
     </div>
+  </header>
 
-    <div class="point">
-      <h2>💰 فلوسك قبل ما تمشي</h2>
-      <p>تخلّص الشغل والعميل يستلم، وتقبض قبل ما تلمّ عدّتك.</p>
+  <main id="main">
+    <div class="wrap">
+      <div class="hero">
+        <h1>شغلك النضيف يستاهل سعره</h1>
+        <p class="lead">مش لازم تنزل بالسعر علشان تلاقي شغل. إنت عليك الصنعة، وإحنا علينا العميل والبضاعة.</p>
+        <a class="btn btn-lg" href="technician.html">سجّل كفنّي، التسجيل مجاني</a>
+        <p class="note">إحنا لسه بنبدأ، وعايزينك معانا من الأول.</p>
+        <ul class="facts">
+          <li>تسجيل مجاني</li>
+          <li>مراجعة بنفسنا لكل طلب</li>
+          <li>عمولة واضحة 5%</li>
+        </ul>
+      </div>
+
+      <section aria-labelledby="how">
+        <h2 id="how">إزاي بتشتغل؟</h2>
+        <p class="sub">ثلاث خطوات بس.</p>
+        <div class="card step"><span class="num">1</span><div><h3>سجّل بياناتك</h3><p>اسمك، ومنطقتك، وخبرتك، وصورة بطاقتك وعدّتك. بياخد دقيقتين.</p></div></div>
+        <div class="card step"><span class="num">2</span><div><h3>نراجع طلبك بنفسنا</h3><p>بنتأكد من البيانات ونتواصل معاك قبل ما نعتمدك.</p></div></div>
+        <div class="card step"><span class="num">3</span><div><h3>الشغل بيوصلك جاهز</h3><p>تصميم وسعر محدد من العميل، والبضاعة بتتشحن، وإنت بتركّب. وبتقبض بعد ما العميل يأكد إن السيستم شغال.</p></div></div>
+      </section>
+
+      <section aria-labelledby="why">
+        <h2 id="why">ليه VEXA؟</h2>
+        <p class="sub">علشان الشغل النضيف ما يتحاسبش بسعر الشغل الرخيص.</p>
+        <div class="card"><h3>🔧 صنعتك هي اللي بتتكلم</h3><p>المنصة سعرها عادل: فيها حد أدنى للمصنعية يحمي الشغل المحترم من سباق أرخص سعر.</p></div>
+        <div class="card"><h3>💰 فلوسك مضمونة</h3><p>فلوس المصنعية بتتحجز عندنا يوم التركيب، وبتتحوّل لك بعد ما العميل يأكد الاستلام.</p></div>
+        <div class="card"><h3>📦 مفيش عليك تمن بضاعة</h3><p>إحنا اللي بنوفّر البضاعة والشحن، وإنت بتركّب بس.</p></div>
+      </section>
+
+      <section aria-labelledby="who">
+        <h2 id="who">مين يقدر يشتغل معانا؟</h2>
+        <p class="sub">بنبدأ بالكاميرات، وباقي الأنظمة بعدها حسب تخصصات الفنيين المسجّلين.</p>
+        <div class="card"><h3>فني حر</h3><p>بتشتغل لحسابك وعايز شغل منتظم في منطقتك.</p></div>
+        <div class="card"><h3>فني مع شركة</h3><p>بتشتغل مع شركة وعايز مصدر شغل إضافي.</p></div>
+        <div class="card"><h3>متخصص في نظام</h3><p>انتركم، أو إنذار، أو حريق، أو بصمة وحضور. سجّل وقولنا تخصصك.</p></div>
+      </section>
+
+      <section aria-labelledby="name">
+        <h2 id="name">معنى VEXA</h2>
+        <p class="sub">أربع كلمات بنشتغل علشانها.</p>
+        <div class="meaning">
+          <div class="card"><b>V</b><span>موثّق: فنيين بنراجعهم</span></div>
+          <div class="card"><b>E</b><span>دقيق: سعر واضح</span></div>
+          <div class="card"><b>X</b><span>خبير: شغل نضيف</span></div>
+          <div class="card"><b>A</b><span>مضمون: ضمان بجد</span></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="faq">
+        <h2 id="faq">أسئلة شائعة</h2>
+        <p class="sub">إجابات صريحة من غير لف ودوران.</p>
+        <details><summary>التسجيل بفلوس؟</summary><p>لأ، مجاني ومفيش اشتراك. عمولتنا 5% من المصنعية، وبس لما تشتغل شغلة.</p></details>
+        <details><summary>مين بيحدد سعر المصنعية؟</summary><p>إنت. بس بين حد أدنى وحد أعلى بنحطهم علشان نحمي الفني والعميل.</p></details>
+        <details><summary>إمتى بقبض فلوسي؟</summary><p>بعد ما تبعت صور الشغل والعميل يأكد إن السيستم شغال. هنتفق معاك على وسيلة الدفع وقت الاعتماد.</p></details>
+        <details><summary>إيه اللي أحتاجه علشان أتقبل؟</summary><p>صورة بطاقتك، وصورة عدّة الشغل، وصورة شخصية، كلها من الكاميرا. صورة البطاقة بنستخدمها للتحقق من هويتك بس.</p></details>
+        <details><summary>البضاعة بتجيلي منين؟</summary><p>إحنا بنوفّرها وبتتشحن للعميل. المفروض تكون موجود وقت الاستلام وتفحصها معاه.</p></details>
+        <details><summary>إمتى العملاء بيبدأوا؟</summary><p>لسه بنبدأ. بنفتح منطقة منطقة حسب أماكن الفنيين المعتمدين، وهنكلمك أول ما تتفتح منطقتك.</p></details>
+        <details><summary>لو حصلت مشكلة بعد التركيب؟</summary><p>إحنا أول من يرد على العميل. ضمان التركيب بيكون على الفني في عيوب التركيب بس (من 15 لـ30 يوم)، مش على عيوب الجهاز.</p></details>
+      </section>
+
+      <section class="final" aria-labelledby="cta">
+        <h2 id="cta">الشغلانة دي تستاهل ناس بتحترمها</h2>
+        <p class="sub">انضم من الأول، وساعدنا نبني منصة تحمي الصنعة.</p>
+        <a class="btn btn-lg" href="technician.html">سجّل كفنّي</a>
+      </section>
     </div>
-
-    <div class="point">
-      <h2>🤝 كلام واضح من الأول</h2>
-      <p>التسجيل مجاني ومفيش اشتراك. عمولتنا 5% وبس لما تشتغل .</p>
-    </div>
-
-    <a class="cta" href="technician.html">سجّل كفنّي</a>
-    <p class="note">إحنا لسه بنبدأ، وعايزينك معانا من الأول. وبنراجع كل طلب بنفسنا علشان نحافظ على مستوى الشغل.</p>
-
-    <p class="closing">الشغلانة دي تستاهل ناس بتحترمها.</p>
   </main>
+
+  <footer>
+    <div class="wrap">VEXA © 2026</div>
+  </footer>
 </body>
 </html>
