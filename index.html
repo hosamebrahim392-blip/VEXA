@@ -1,210 +1,947 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VEXA | شغلك النضيف يستاهل سعره</title>
-  <meta name="description" content="منصة للفنيين: إنت عليك الصنعة، وإحنا علينا العميل والبضاعة. سجّل كفنّي في كاميرات المراقبة وأنظمة الأمان.">
-  <meta name="theme-color" content="#0b6e4f">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="VEXA | شغلك النضيف يستاهل سعره">
-  <meta property="og:description" content="إنت عليك الصنعة، وإحنا علينا العميل والبضاعة. التسجيل مجاني.">
-  <meta property="og:locale" content="ar_EG">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b6e4f'/%3E%3Cpath d='M16 30 L28 44 L48 18' fill='none' stroke='white' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      color-scheme: light dark;
-      --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5b6470;
-      --accent: #0b6e4f; --accent-text: #ffffff; --accent-soft: rgba(11,110,79,.10);
-      --border: #dfe3e8;
-      --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-pill: 999px;
-      --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem; --s-6: 1.5rem; --s-8: 2rem; --s-10: 2.5rem; --s-12: 3rem;
-      --sh-1: 0 1px 2px rgba(0,0,0,.06);
-      --sh-2: 0 6px 18px rgba(0,0,0,.08);
-      --t: .2s ease;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #14181d; --card: #1d232a; --text: #eef1f4; --muted: #a3acb8;
-        --accent: #2fb585; --accent-text: #0c1511; --accent-soft: rgba(47,181,133,.14);
-        --border: #2c343d;
-        --sh-1: 0 1px 2px rgba(0,0,0,.4);
-        --sh-2: 0 6px 18px rgba(0,0,0,.35);
-      }
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0; background: var(--bg); color: var(--text);
-      font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
-      line-height: 1.75;
-    }
-    .wrap { max-width: 640px; margin: 0 auto; padding: 0 var(--s-4); }
-    .skip { position: absolute; inset-inline-start: var(--s-4); top: -4rem; background: var(--accent); color: var(--accent-text); padding: var(--s-2) var(--s-4); border-radius: var(--r-sm); z-index: 10; }
-    .skip:focus { top: var(--s-2); }
-    a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: var(--r-sm); }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="VEXA - المنصة الرقمية الشاملة لمهندسي وفنيي أنظمة التيار الخفيف والمراقبة والأمن في مصر">
+    <title>VEXA | منصة مهندسي وفنيي التيار الخفيف</title>
+    <style>
+        :root {
+            --bg-base: #0a0f1d;
+            --bg-surface: #111827;
+            --bg-card: #1f2937;
+            --border-color: #374151;
+            --primary: #06b6d4;
+            --primary-hover: #0891b2;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+        }
 
-    header { padding: var(--s-4) 0; }
-    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
-    .brand { display: flex; align-items: center; gap: var(--s-2); font-weight: 800; letter-spacing: .08em; color: var(--accent); text-decoration: none; font-size: 1.25rem; }
-    .logo { width: 36px; height: 36px; }
-    .btn {
-      display: inline-block; text-align: center; background: var(--accent); color: var(--accent-text);
-      padding: var(--s-3) var(--s-6); border-radius: var(--r-md); font-weight: 800; text-decoration: none;
-      box-shadow: var(--sh-1); transition: transform var(--t), box-shadow var(--t);
-    }
-    .btn:hover { transform: translateY(-1px); box-shadow: var(--sh-2); }
-    .btn-sm { padding: var(--s-2) var(--s-4); font-size: .95rem; }
-    .btn-lg { display: block; font-size: 1.15rem; padding: var(--s-4); }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", Tahoma, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    .hero { padding: var(--s-10) 0 var(--s-6); }
-    h1 { font-size: 2rem; line-height: 1.4; margin: 0 0 var(--s-3); font-weight: 800; }
-    .lead { font-size: 1.15rem; color: var(--muted); margin: 0 0 var(--s-6); }
-    .note { color: var(--muted); font-size: .95rem; margin: var(--s-3) 0 0; text-align: center; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            font-size: 14px;
+        }
 
-    .facts { display: flex; flex-wrap: wrap; gap: var(--s-2); list-style: none; padding: 0; margin: var(--s-6) 0 0; }
-    .facts li { background: var(--accent-soft); color: var(--accent); border-radius: var(--r-pill); padding: var(--s-1) var(--s-4); font-weight: 600; font-size: .95rem; }
+        /* Top Header */
+        header {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    section { padding: var(--s-10) 0 0; }
-    h2 { font-size: 1.5rem; line-height: 1.4; margin: 0 0 var(--s-2); font-weight: 800; }
-    .sub { color: var(--muted); margin: 0 0 var(--s-6); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--s-4) var(--s-6); margin-bottom: var(--s-3); box-shadow: var(--sh-1); }
-    .card h3 { margin: 0 0 var(--s-1); font-size: 1.1rem; }
-    .card p { margin: 0; color: var(--muted); }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
 
-    .step { display: flex; gap: var(--s-4); align-items: flex-start; }
-    .num { flex: none; width: 2.25rem; height: 2.25rem; border-radius: var(--r-pill); background: var(--accent); color: var(--accent-text); font-weight: 800; display: grid; place-items: center; }
+        .brand-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #000;
+            font-weight: 900;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
 
-    .meaning { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-3); }
-    .meaning .card { margin: 0; text-align: center; }
-    .meaning b { display: block; font-size: 1.75rem; color: var(--accent); line-height: 1.2; }
-    .meaning span { color: var(--muted); font-size: .95rem; }
+        .brand-text h1 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
 
-    details { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); margin-bottom: var(--s-3); box-shadow: var(--sh-1); }
-    summary { cursor: pointer; padding: var(--s-4) var(--s-6); font-weight: 600; list-style: none; }
-    summary::-webkit-details-marker { display: none; }
-    summary::after { content: "+"; float: left; color: var(--accent); font-weight: 800; }
-    details[open] summary::after { content: "−"; }
-    details p { margin: 0; padding: 0 var(--s-6) var(--s-4); color: var(--muted); }
+        .brand-text p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
 
-    .final { text-align: center; padding-bottom: var(--s-12); }
-    footer { border-top: 1px solid var(--border); padding: var(--s-6) 0; text-align: center; color: var(--muted); font-size: .9rem; }
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .hero, section { animation: rise .5s ease both; }
-      @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .btn { transition: none; }
-    }
-    @media (min-width: 640px) { h1 { font-size: 2.5rem; } }
-  </style>
+        .badge-live {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-weight: 600;
+        }
+
+        .badge-live::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 6px var(--accent);
+        }
+
+        /* Navigation Tabs */
+        nav {
+            background-color: var(--bg-surface);
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--border-color);
+            scrollbar-width: none;
+            padding: 0.4rem 0.5rem;
+            gap: 0.4rem;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 0.55rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .nav-btn.active {
+            background-color: var(--bg-card);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Main Container */
+        main {
+            flex: 1;
+            padding: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* Card Elements */
+        .card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+        }
+
+        @media (min-width: 640px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            .grid-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.65rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            padding: 0.75rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.88rem;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: #fff;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Results Display Box */
+        .results-box {
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-right: 4px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-val {
+            font-weight: 700;
+            color: var(--accent);
+            direction: ltr;
+        }
+
+        /* DORI Pills */
+        .dori-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .dori-card {
+            background-color: var(--bg-card);
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 3px solid var(--border-color);
+        }
+
+        .dori-card.detect { border-color: #3b82f6; }
+        .dori-card.observe { border-color: #10b981; }
+        .dori-card.recognize { border-color: #f59e0b; }
+        .dori-card.identify { border-color: #ef4444; }
+
+        .dori-title { font-size: 0.75rem; color: var(--text-muted); }
+        .dori-val { font-size: 1.15rem; font-weight: 800; margin-top: 0.3rem; }
+
+        /* Wiring Diagrams */
+        .wiring-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .rj45-connector {
+            background-color: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .rj45-pins {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+            margin-top: 1rem;
+            background: #000;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .rj-pin {
+            flex: 1;
+            height: 90px;
+            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 2px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* Pin Colors */
+        .w-orange { background: repeating-linear-gradient(45deg, #fff, #fff 4px, #f97316 4px, #f97316 8px); }
+        .orange { background: #f97316; color: #fff; }
+        .w-green { background: repeating-linear-gradient(45deg, #fff, #fff 4px, #22c55e 4px, #22c55e 8px); }
+        .blue { background: #2563eb; color: #fff; }
+        .w-blue { background: repeating-linear-gradient(45deg, #fff, #fff 4px, #2563eb 4px, #2563eb 8px); }
+        .green { background: #22c55e; color: #fff; }
+        .w-brown { background: repeating-linear-gradient(45deg, #fff, #fff 4px, #854d0e 4px, #854d0e 8px); }
+        .brown { background: #854d0e; color: #fff; }
+
+        /* Schematic Box */
+        .schematic-box {
+            background-color: var(--bg-card);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            direction: ltr;
+            text-align: left;
+        }
+
+        /* Troubleshooting Accordion */
+        .faq-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            overflow: hidden;
+        }
+
+        .faq-header {
+            padding: 0.9rem 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .faq-header:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-body {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease-out, padding 0.25s ease;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .faq-item.open .faq-body {
+            padding: 1rem;
+            max-height: 400px;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-icon {
+            transition: transform 0.2s ease;
+        }
+
+        /* BoQ Table */
+        .boq-table-wrap {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        table.boq-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        table.boq-table th, table.boq-table td {
+            padding: 0.6rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table.boq-table th {
+            color: var(--text-muted);
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        .del-row-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            padding: 1.25rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
+
+        /* Printable Mode */
+        @media print {
+            body {
+                background: #fff;
+                color: #000;
+            }
+            header, nav, footer, .btn, .no-print {
+                display: none !important;
+            }
+            main {
+                max-width: 100%;
+                padding: 0;
+            }
+            .card {
+                border: 1px solid #ddd;
+                box-shadow: none;
+                background: #fff;
+                color: #000;
+            }
+            .result-val {
+                color: #000;
+            }
+            .tab-content {
+                display: none !important;
+            }
+            #boq-tool {
+                display: block !important;
+            }
+        }
+    </style>
 </head>
 <body>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <linearGradient id="vxg" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#12946b"/><stop offset="1" stop-color="#094c38"/>
-      </linearGradient>
-    </defs>
-    <symbol id="vx" viewBox="0 0 512 512">
-      <rect width="512" height="512" rx="120" fill="url(#vxg)"/>
-      <g transform="translate(-16 24)" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M136 176 L236 350" stroke="#ffffff" stroke-width="46"/>
-        <path d="M236 350 L351 168" stroke="#7ef0c4" stroke-width="46"/>
-        <circle cx="372" cy="134" r="30" stroke="#7ef0c4" stroke-width="14"/>
-        <circle cx="372" cy="134" r="8" fill="#7ef0c4" stroke="none"/>
-      </g>
-    </symbol>
-  </svg>
 
-  <a class="skip" href="#main">تخطّى للمحتوى</a>
-
-  <header>
-    <div class="wrap">
-      <a class="brand" href="./" aria-label="VEXA">
-        <svg class="logo" aria-hidden="true"><use href="#vx"/></svg>
-        <span>VEXA</span>
-      </a>
-      <a class="btn btn-sm" href="technician.html">سجّل كفنّي</a>
-    </div>
-  </header>
-
-  <main id="main">
-    <div class="wrap">
-      <div class="hero">
-        <h1>شغلك النضيف يستاهل سعره</h1>
-        <p class="lead">مش لازم تنزل بالسعر علشان تلاقي شغل. إنت عليك الصنعة، وإحنا علينا العميل والبضاعة.</p>
-        <a class="btn btn-lg" href="technician.html">سجّل كفنّي، التسجيل مجاني</a>
-        <p class="note">إحنا لسه بنبدأ، وعايزينك معانا من الأول.</p>
-        <ul class="facts">
-          <li>تسجيل مجاني</li>
-          <li>مراجعة بنفسنا لكل طلب</li>
-          <li>عمولة واضحة 5%</li>
-        </ul>
-      </div>
-
-      <section aria-labelledby="how">
-        <h2 id="how">إزاي بتشتغل؟</h2>
-        <p class="sub">ثلاث خطوات بس.</p>
-        <div class="card step"><span class="num">1</span><div><h3>سجّل بياناتك</h3><p>اسمك، ومنطقتك، وخبرتك، وصورة بطاقتك وعدّتك. بياخد دقيقتين.</p></div></div>
-        <div class="card step"><span class="num">2</span><div><h3>نراجع طلبك بنفسنا</h3><p>بنتأكد من البيانات ونتواصل معاك قبل ما نعتمدك.</p></div></div>
-        <div class="card step"><span class="num">3</span><div><h3>الشغل بيوصلك جاهز</h3><p>تصميم وسعر محدد من العميل، والبضاعة بتتشحن، وإنت بتركّب. وبتقبض بعد ما العميل يأكد إن السيستم شغال.</p></div></div>
-      </section>
-
-      <section aria-labelledby="why">
-        <h2 id="why">ليه VEXA؟</h2>
-        <p class="sub">علشان الشغل النضيف ما يتحاسبش بسعر الشغل الرخيص.</p>
-        <div class="card"><h3>🔧 صنعتك هي اللي بتتكلم</h3><p>المنصة سعرها عادل: فيها حد أدنى للمصنعية يحمي الشغل المحترم من سباق أرخص سعر.</p></div>
-        <div class="card"><h3>💰 فلوسك مضمونة</h3><p>فلوس المصنعية بتتحجز عندنا يوم التركيب، وبتتحوّل لك بعد ما العميل يأكد الاستلام.</p></div>
-        <div class="card"><h3>📦 مفيش عليك تمن بضاعة</h3><p>إحنا اللي بنوفّر البضاعة والشحن، وإنت بتركّب بس.</p></div>
-      </section>
-
-      <section aria-labelledby="who">
-        <h2 id="who">مين يقدر يشتغل معانا؟</h2>
-        <p class="sub">بنبدأ بالكاميرات، وباقي الأنظمة بعدها حسب تخصصات الفنيين المسجّلين.</p>
-        <div class="card"><h3>فني حر</h3><p>بتشتغل لحسابك وعايز شغل منتظم في منطقتك.</p></div>
-        <div class="card"><h3>فني مع شركة</h3><p>بتشتغل مع شركة وعايز مصدر شغل إضافي.</p></div>
-        <div class="card"><h3>متخصص في نظام</h3><p>انتركم، أو إنذار، أو حريق، أو بصمة وحضور. سجّل وقولنا تخصصك.</p></div>
-      </section>
-
-      <section aria-labelledby="name">
-        <h2 id="name">معنى VEXA</h2>
-        <p class="sub">أربع كلمات بنشتغل علشانها.</p>
-        <div class="meaning">
-          <div class="card"><b>V</b><span>موثّق: فنيين بنراجعهم</span></div>
-          <div class="card"><b>E</b><span>دقيق: سعر واضح</span></div>
-          <div class="card"><b>X</b><span>خبير: شغل نضيف</span></div>
-          <div class="card"><b>A</b><span>مضمون: ضمان بجد</span></div>
+    <!-- Header -->
+    <header>
+        <div class="brand">
+            <span class="brand-badge">VEXA</span>
+            <div class="brand-text">
+                <h1>منصة فني ومهندس التيار الخفيف</h1>
+                <p>CCTV • Access Control • Intercom • Networks</p>
+            </div>
         </div>
-      </section>
+        <div class="quick-actions">
+            <span class="badge-live">جاهز للعمل الميداني</span>
+        </div>
+    </header>
 
-      <section aria-labelledby="faq">
-        <h2 id="faq">أسئلة شائعة</h2>
-        <p class="sub">إجابات صريحة من غير لف ودوران.</p>
-        <details><summary>التسجيل بفلوس؟</summary><p>لأ، مجاني ومفيش اشتراك. عمولتنا 5% من المصنعية، وبس لما تشتغل شغلة.</p></details>
-        <details><summary>مين بيحدد سعر المصنعية؟</summary><p>إنت. بس بين حد أدنى وحد أعلى بنحطهم علشان نحمي الفني والعميل.</p></details>
-        <details><summary>إمتى بقبض فلوسي؟</summary><p>بعد ما تبعت صور الشغل والعميل يأكد إن السيستم شغال. هنتفق معاك على وسيلة الدفع وقت الاعتماد.</p></details>
-        <details><summary>إيه اللي أحتاجه علشان أتقبل؟</summary><p>صورة بطاقتك، وصورة عدّة الشغل، وصورة شخصية، كلها من الكاميرا. صورة البطاقة بنستخدمها للتحقق من هويتك بس.</p></details>
-        <details><summary>البضاعة بتجيلي منين؟</summary><p>إحنا بنوفّرها وبتتشحن للعميل. المفروض تكون موجود وقت الاستلام وتفحصها معاه.</p></details>
-        <details><summary>إمتى العملاء بيبدأوا؟</summary><p>لسه بنبدأ. بنفتح منطقة منطقة حسب أماكن الفنيين المعتمدين، وهنكلمك أول ما تتفتح منطقتك.</p></details>
-        <details><summary>لو حصلت مشكلة بعد التركيب؟</summary><p>إحنا أول من يرد على العميل. ضمان التركيب بيكون على الفني في عيوب التركيب بس (من 15 لـ30 يوم)، مش على عيوب الجهاز.</p></details>
-      </section>
+    <!-- Navigation Tabs -->
+    <nav>
+        <button class="nav-btn active" onclick="showTab('storage-tool')">💾 التخزين والهاردات</button>
+        <button class="nav-btn" onclick="showTab('voltage-tool')">⚡ هبوط الجهد والباور</button>
+        <button class="nav-btn" onclick="showTab('lens-tool')">🎯 زوايا الكاميرات DORI</button>
+        <button class="nav-btn" onclick="showTab('wiring-tool')">🔌 دليل التوصيل والمخططات</button>
+        <button class="nav-btn" onclick="showTab('trouble-tool')">🛠️ مشخص الأعطال الميداني</button>
+        <button class="nav-btn" onclick="showTab('boq-tool')">📄 مقايسة واتساب و PDF</button>
+    </nav>
 
-      <section class="final" aria-labelledby="cta">
-        <h2 id="cta">الشغلانة دي تستاهل ناس بتحترمها</h2>
-        <p class="sub">انضم من الأول، وساعدنا نبني منصة تحمي الصنعة.</p>
-        <a class="btn btn-lg" href="technician.html">سجّل كفنّي</a>
-      </section>
-    </div>
-  </main>
+    <!-- Main Views -->
+    <main>
 
-  <footer>
-    <div class="wrap">VEXA © 2026</div>
-  </footer>
-</body>
-</html>
+        <!-- 1. أداة التخزين والهاردات -->
+        <section id="storage-tool" class="tab-content active">
+            <div class="card">
+                <div class="card-title">
+                    <span>حاسبة السعة والتخزين لكاميرات المراقبة (DVR / NVR Storage)</span>
+                </div>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label>عدد الكاميرات (Cameras Count)</label>
+                        <input type="number" id="st-cams" value="8" min="1" oninput="runStorageCalc()">
+                    </div>
+                    <div class="field-group">
+                        <label>دقة الكاميرا (Resolution)</label>
+                        <select id="st-res" onchange="runStorageCalc()">
+                            <option value="2">2 ميجا بيكسل (1080p FHD)</option>
+                            <option value="4" selected>4 ميجا بيكسل (2K QHD)</option>
+                            <option value="5">5 ميجا بيكسل (3K)</option>
+                            <option value="8">8 ميجا بيكسل (4K Ultra HD)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>كوديك الضغط (Video Compression)</label>
+                        <select id="st-codec" onchange="runStorageCalc()">
+                            <option value="h264">H.264 (ضغط عادي قديم - استهلاك مضاعف)</option>
+                            <option value="h265">H.265 (القياسي المعتمد)</option>
+                            <option value="h265plus" selected>H.265+ / Ultra 265 (الضغط الذكي الموفر)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>المدة المطلوبة لحفظ التسجيلات (أيام)</label>
+                        <input type="number" id="st-days" value="30" min="1" oninput="runStorageCalc()">
+                    </div>
+                    <div class="field-group">
+                        <label>طريقة التسجيل اليومية</label>
+                        <select id="st-motion" onchange="runStorageCalc()">
+                            <option value="24">تسجيل مستمر 24 ساعة بدون انقطاع</option>
+                            <option value="12" selected>تسجيل حركة ذكي Motion Detection (~12 ساعة يومياً)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>تسجيل الصوت مع الصورة؟</label>
+                        <select id="st-audio" onchange="runStorageCalc()">
+                            <option value="yes">نعم، كاميرات بمايك داخلي (Built-in Mic)</option>
+                            <option value="no" selected>لا، فيديو فقط بدون صوت</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="results-box">
+                    <div class="result-row">
+                        <span>إجمالي المساحة المطلوبة:</span>
+                        <span class="result-val" id="res-st-space">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span>الهارد المقترح شراءه في مصر:</span>
+                        <span class="result-val" id="res-st-hdd">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span>الباندويث المطلوب للشبكة (Network Bandwidth):</span>
+                        <span class="result-val" id="res-st-bw">--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. أداة هبوط الجهد والباور سبلاي -->
+        <section id="voltage-tool" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <span>حاسبة هبوط الجهد (معايرة لخامات السوق المصري: ألومنيوم CCA ونحاس)</span>
+                </div>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label>خامة ونوع الكابل المستخدم في الباور</label>
+                        <select id="volt-cable" onchange="runVoltageCalc()">
+                            <option value="cca-cat6">كابل شبكة Cat6 تجاري (CCA ألومنيوم مكسو بالنحاس)</option>
+                            <option value="cu-cat6">كابل شبكة Cat6 معتمد (Pure Copper نحاس بيور)</option>
+                            <option value="power-0.5">سلك باور عادي 0.5 مم (سوقي)</option>
+                            <option value="power-0.75" selected>سلك باور 0.75 مم معتمد (السويدي)</option>
+                            <option value="power-1.0">سلك باور 1.0 مم معتمد (السويدي)</option>
+                            <option value="rg59-power">كابل شيلد مع طرفين باور 2*0.75 (RG59 Combo)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>المسافة بين الباور والكاميرا (متر)</label>
+                        <input type="number" id="volt-dist" value="65" min="1" oninput="runVoltageCalc()">
+                    </div>
+                    <div class="field-group">
+                        <label>جهد الخرج من الباور سبلاي (Volt DC)</label>
+                        <input type="number" id="volt-in" value="12.0" step="0.1" oninput="runVoltageCalc()">
+                    </div>
+                    <div class="field-group">
+                        <label>استهلاك الكاميرا بالليل عند تشغيل الـ IR (أمبير)</label>
+                        <select id="volt-amp" onchange="runVoltageCalc()">
+                            <option value="0.5">0.5 أمبير (كاميرا داخلية عادية Dome)</option>
+                            <option value="1.0" selected>1.0 أمبير (كاميرا خارجية Bullet بمدى 40متر)</option>
+                            <option value="1.5">1.5 أمبير (كاميرات ملونة ليلية ColorVu / Full Color)</option>
+                            <option value="2.5">2.5 أمبير (كاميرا متحركة PTZ أو كشافات عالية)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="results-box">
+                    <div class="result-row">
+                        <span>الجهد الواصل للكاميرا عند أقصى حمل:</span>
+                        <span class="result-val" id="res-volt-out">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span>نسبة الفقد في الجهد (Voltage Drop):</span>
+                        <span class="result-val" id="res-volt-loss">--</span>
+                    </div>
+                    <div id="res-volt-advice" style="margin-top: 0.5rem; font-size: 0.85rem; line-height: 1.5;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. أداة زوايا الرؤية و DORI -->
+        <section id="lens-tool" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <span>حاسبة زوايا العدسات ومدى كشف الأشخاص (معيار DORI العالمي)</span>
+                </div>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label>بعد العدسة البؤري (Focal Length)</label>
+                        <select id="lens-val" onchange="runDoriCalc()">
+                            <option value="2.8" selected>عدسة 2.8 مم (زاوية واسعة ~103° - للغرف والمساحات المفتوحة)</option>
+                            <option value="3.6">عدسة 3.6 مم (زاوية متوسطة ~82° - للمداخل والمحلات)</option>
+                            <option value="6.0">عدسة 6.0 مم (زاوية مركزة ~51° - للممرات والأروقة الطويلة)</option>
+                            <option value="12.0">عدسة 12.0 مم (زاوية ضيقة جداً ~24° - للبوابات البعيدة وقراءة اللوحات)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>دقة المستشعر (Camera Megapixels)</label>
+                        <select id="lens-mp" onchange="runDoriCalc()">
+                            <option value="2">2 ميجا بيكسل (1080p)</option>
+                            <option value="4" selected>4 ميجا بيكسل (2K)</option>
+                            <option value="8">8 ميجا بيكسل (4K)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="dori-container">
+                    <div class="dori-card detect">
+                        <div class="dori-title">كشف (Detect)</div>
+                        <div class="dori-val" id="dori-d">-- م</div>
+                        <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">معرفة وجود شخص</div>
+                    </div>
+                    <div class="dori-card observe">
+                        <div class="dori-title">مراقبة (Observe)</div>
+                        <div class="dori-val" id="dori-o">-- م</div>
+                        <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">متابعة تحركاته</div>
+                    </div>
+                    <div class="dori-card recognize">
+                        <div class="dori-title">تعرف (Recognize)</div>
+                        <div class="dori-val" id="dori-r">-- م</div>
+                        <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">معرفة الشخص المألوف</div>
+                    </div>
+                    <div class="dori-card identify">
+                        <div class="dori-title">تحديد جنائي (Identify)</div>
+                        <div class="dori-val" id="dori-i">-- م</div>
+                        <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">ملامح دقيقة للنيابة</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem; background: var(--bg-card); padding: 0.75rem; border-radius: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    💡 <strong>نصيحة للمعاينة:</strong> إذا كان طلب العميل التعرف الصريح على وجه الشخص عند باب المحل أو الخزينة، لا تعتمد على عدسة 2.8 مم من مسافة تزيد عن 4-5 أمتار مهما زادت الميجا بيكسل.
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. دليل التوصيلات والمخططات التفاعلية -->
+        <section id="wiring-tool" class="tab-content">
+            <div class="wiring-grid">
+                
+                <!-- تأريج RJ45 -->
+                <div class="rj45-connector">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+                        <span style="font-weight:700; color:var(--primary);">تأريج كابلات الشبكة (RJ-45 Pinout Standard)</span>
+                        <select id="pin-standard" onchange="renderRjPins()" style="padding:0.3rem 0.6rem; font-size:0.8rem;">
+                            <option value="B">معيار T-568B (الأكثر استخداماً في مصر)</option>
+                            <option value="A">معيار T-568A</option>
+                        </select>
+                    </div>
+                    <p style="font-size:0.8rem; color:var(--text-muted);">ترتيب الأطراف من الشمال لليمين والجاك مقلوب (اللبسانج لأسفل والسنون النحاس لأعلى في وجهك):</p>
+                    
+                    <div class="rj45-pins" id="rj-pins-display">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- مخطط الأكسس كنترول -->
+                <div class="card">
+                    <div class="card-title">مخطط توصيل الأكسس كنترول (Power Supply Controller + Maglock)</div>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">توصيلة الباور المخصص للأكسس كنترول (12V 5A مع بطارية احتياطية):</p>
+                    <div class="schematic-box">
+[Power Supply Controller Board]
++12V  --------->  قارئ الأكسس كنترول (Access Reader) [+12V Red]
+GND   --------->  قارئ الأكسس كنترول (Access Reader) [GND Black]
+
+NC    --------->  الطرف الموجب (+) للكالون المغناطيسي (Magnetic Lock)
+COM   --------->  الطرف الموجب (+) في الباور الداخلي
+GND   --------->  الطرف السالب (-) للكالون المغناطيسي (Maglock)
+
+PUSH  --------->  طرف زر الخروج (Push to Exit Button)
+GND   --------->  الطرف الثاني لزر الخروج (Push to Exit Button)
+
+CONTROL --------> طرف الـ Break Glass الزجاجي (لطوارئ الحريق)
+                    </div>
+                </div>
+
+                <!-- مخطط الإنتركم -->
+                <div class="card">
+                    <div class="card-title">مخطط أطراف الإنتركم التناظري 4 أطراف (Commax / Farfisa)</div>
+                    <div class="schematic-box">
+Terminal 1 (Red / أحمر)   : الصوت (Voice Audio)
+Terminal 2 (Blue / أزرق)  : الأرضي المشترك (GND)
+Terminal 3 (Yellow / أصفر): التغذية الموجبة (Power +12V)
+Terminal 4 (White / أبيض) : إشارة الفيديو (Video Signal)
+الطرفين الإضافيين (B1, B2): فتح كالون الباب الكهربائي (Door Lock AC/DC)
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 5. مشخص الأعطال الميداني الذكي -->
+        <section id="trouble-tool" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <span>مشخص الأعطال الميداني الذكي (حل المشاكل الأكثر شيوعاً)</span>
+                </div>
+                <div class="field-group" style="margin-bottom:1rem;">
+                    <input type="text" id="faq-search" placeholder="🔍 اكتب العطل للبحث الفوري (مثال: تصفير، تشويش، ريستارت، لا يوجد صورة...)" oninput="filterFaq()">
+                </div>
+
+                <div id="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <span>🔊 جهاز التسجيل (DVR / NVR) بيصفر باستمرار بشكل متقطع</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-body">
+                            <strong>الأسباب والحلول بالترتيب:</strong><br>
+                            1. <strong>الهارد ديسك غير مهيأ (Uninitialized):</strong> ادخل على Storage > Hard Drive واعمل تهيئة (Format/Init).<br>
+                            2. <strong>عطل في الهارد ديسك (HDD Error / Bad Sectors):</strong> الهارد تالف أو مش قادر يقوم بسبب باور ضعيف.<br>
+                            3. <strong>تعارض في عنوان الآي بي (IP Conflict):</strong> فيه جهازين واخدين نفس الآي بي في الشبكة.<br>
+                            4. <strong>كتم الصوت:</strong> ادخل على Configuration > Exceptions وعطل خيار الـ Buzzer لحين حل المشكلة.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <span>🌑 الكاميرا شغالة تمام بالنهار وتفصل أو ترستر بالليل</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-body">
+                            <strong>السبب الحتمي: هبوط الجهد (Voltage Drop)</strong><br>
+                            الكاميرا تستهلك بالنهار ~0.2 أمبير فقط. بالليل مع تشغيل ليدات الأشعة تحت الحمراء (IR) يقفز الاستهلاك إلى 1.0 أمبير. إذا كان السلك طويلاً أو خامة الكابل CCA رديئة، ينخفض الفولت الواصل إلى أقل من 10 فولت فترستر الكاميرا دورياً.<br>
+                            <strong>الحل:</strong> ارفع الفولت من مسمار التعديل في الباور سبلاي (V-ADJ) إلى 13V، أو استخدم زوجين من الأسلاك (Double Pairs) لخط الباور، أو ضع باور سبلاي منفصل 12V 2A بجوار الكاميرا.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <span>〰️ خطوط سوداء مموجة أو نمنمة تتحرك في الصورة (CCTV Lines)</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-body">
+                            <strong>الأسباب والحلول:</strong><br>
+                            1. <strong>تداخل كهربي مع تيار عالي:</strong> الكابل ماشي جنب كابل تكييف أو مصعد 380V. الحل: ابعد الكابل أو استخدم كابل FTP معزول.<br>
+                            2. <strong>مشكلة الأرضي (Ground Loop):</strong> ركب عازل أرضي (Ground Loop Isolator) على خط الـ BNC.<br>
+                            3. <strong>تلف مكثفات الباور سبلاي:</strong> الباور بيخرج تيار غير مستقر فيه ريبل (AC Ripple)، استبدل الباور بباور أصلي معتمد.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <span>🌐 الكاميرا الـ IP مش بتظهر في برنامج SADP أو الـ NVR</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-body">
+                            <strong>خطوات الفحص السريع:</strong><br>
+                            1. تأكد من إضاءة لمبات ليد البورت (Link/Act) في سويتش الـ PoE للكاميرا.<br>
+                            2. تأكد من تأريج الكابل وأن ترتيب الأسلاك صحيح 100% ولا يوجد كسر بأحد الأطراف الـ 8.<br>
+                            3. إذا كنت على كمبيوتر، تأكد أن برنامج كاسبرسكي أو Windows Firewall مش حاجب بروتوكول SADP/ARP.<br>
+                            4. الكاميرا ربما تكون في نطاق Subnet مختلف (مثلاً 192.168.1.64 وجهازك 192.168.0.x).
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <span>🔒 نسيت باسورد الـ DVR / NVR (تصفير كلمة المرور)</span>
+                            <span class="faq-icon">▼</span>
+                        </div>
+                        <div class="faq-body">
+                            <strong>طرق التصفير المعتمدة في مصر:</strong><br>
+                            1. <strong>أجهزة Hikvision / Hilook:</strong> عن طريق برنامج SADP، اختر Export لملف الـ XML وارسله للوكيل في مصر (زي HitekNOS أو مترا) للحصول على مفتاح الاستعادة، أو استخدم ميزة الـ QR Code من خلال تطبيق Hik-Connect إذا كان الحساب مرتبطاً.<br>
+                            2. <strong>أجهزة Dahua:</strong> اضغط على علامة الاستفهام في شاشة الباسورد وقم بعمل Scan للـ QR Code بواسطة تطبيق DMSS.<br>
+                            3. <strong>الأجهزة الشعبية (XVR / Xiongmai):</strong> يتم استخدام الباسورد اليومي (Super Password) المحسوب بتاريخ اليوم الظاهر على شاشة الجهاز.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. صانع المقايسات وعروض الأسعار الفورية -->
+        <section id="boq-tool" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <span>مولد المقايسات وعروض الأسعار للعملاء (Instant Quotation Maker)</span>
+                    <button class="btn btn-outline no-print" onclick="window.print()" style="padding:0.4rem 0.8rem; font-size:0.8rem;">🖨️ طباعة المقايسة PDF</button>
+                </div>
+
+                <div class="grid-2 no-print">
+                    <div class="field-group">
+                        <label>اسم العميل / المشروع</label>
+                        <input type="text" id="boq-client" value="أ/ محمد إبراهيم - التجمع الخامس">
+                    </div>
+                    <div class="field-group">
+                        <label>اسم الفني / الشركة المنفذة</label>
+                        <input type="text" id="boq-company" value="المهندس للأنظمة الأمنية الحديثة">
+                    </div>
+                    <div class="field-group">
+                        <label>رقم هاتف الفني / واتساب</label>
+                        <input type="text" id="boq-phone" placeholder="010xxxxxxxx">
+                    </div>
+                    <div class="field-group">
+                        <label>مدة الضمان المقدمة</label>
+                        <input type="text" id="boq-warranty" value="سنة كاملة ضد عيوب الصناعة مع دعم فني">
+                    </div>
+                </div>
+
+                <div class="boq-table-wrap">
+                    <table class="boq-table" id="boq-items-table">
+                        <thead>
+                            <tr>
+                                <th>البند والبيان</th>
+                                <th style="width: 80px;">الكمية</th>
+                                <th style="width: 110px;">سعر الوحدة</th>
+                                <th style="width: 120px;">الإجمالي</th>
+                                <th class="no-print" style="width: 40px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="boq-table-body">
+                            <!-- Items added dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="no-print" style="margin-top: 0.8rem; display:flex; gap:0.5rem;">
+                    <button class="btn btn-outline" onclick="addBoqRow('كاميرا مراقبة خارجية 5MP مدمجة بمايك', 4, 850)">+ إضافة كاميرا</button>
+                    <button class="btn btn-outline" onclick="addBoqRow('جهاز تسجيل رقمي DVR 4 قنوات 5MP', 1, 2400)">+ إضافة جهاز تسجيل</button>
+                    <button class="btn btn-outline" onclick="addBoqRow('هارد ديسك 1TB مخصص مراقبة WD Purple', 1, 2100)">+ إضافة هارد</button>
+                    <button class="btn btn-outline" onclick="addBoqRow('مستلزمات توصيل وباور سبلاي وبواط', 1, 1500)">+ مستلزمات</button>
+                    <button class="btn btn-outline" onclick="addBoqRow('أجور التركيب وسحب الكابلات والبرمجة', 1, 1500)">+ مصنعية</button>
+                </div>
+
+                <div class="results-box" style="margin-top:1.2rem;">
+                    <div class="result-row">
+                        <span style="font-size:1.1rem; font-weight:700;">الإجمالي النهائي للمقايسة:</span>
+                        <span class="result-val" id="boq-grand-total" style="font-size:1.25rem;">0 ج.م</span>
+                    </div>
+                </div>
+
+                <div class="no-print" style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <button class="btn btn-whatsapp" onclick="sendBoqWhatsApp()" style="flex: 2;">
+                        📲 إرسال عرض السعر مباشرة على واتساب العميل
+                    </button>
+                    <button class="btn btn-outline" onclick="copyBoqToClipboard()" style="flex: 1;">
+                        📋 نسخ نص المقايسة
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>منصة VEXA للتيار الخفيف • كود متصفح خفيف مخصص للعمل بدون إنترنت (Offline-Capable)</p>
+    </footer>
+
+    <script>
+        // Global Navigation
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+            if (event && event.currentTarget) event.currentTarget.classList.add('active');
+        }
+
+        // 1. Storage Calculations
+        function runStorageCalc() {
+            const count = parseInt(document.getElementById('st-cams').value) || 0;
+            const res = parseInt(document.getElementById('st-res').value) || 2;
+            const codec = document.getElementById('st-codec').value;
+            const days = parseInt(document.getElementById('st-days').value) || 1;
+            const hours = parseInt(document.getElementById('st-motion').value) || 24;
+            const hasAudio = document.getElementById('st-audio').value === 'yes';
+
+            let baseBitrateKbps = 2048; // 2MP default
+            if (res === 4) baseBitrateKbps = 4096;
+            if (res === 5) baseBitrateKbps = 5120;
+            if (res === 8) baseBitrateKbps = 8192;
+
+            if (hasAudio) baseBitrateKbps += 64; // G.711 standard audio channel
+
+            let compressionMultiplier = 1.0;
+            if (codec === 'h265') compressionMultiplier = 0.55;
+            if (codec === 'h265plus') compressionMultiplier = 0.28;
+
+            const finalCamBitrate = baseBitrateKbps * compressionMultiplier;
+            const totalBandwidthMbps = (finalCamBitrate * count) / 1024;
+
+            // Total GB = Bitrate(Kbps) * 3600 * hours * days * count / (8 * 1024 *
